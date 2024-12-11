@@ -1,0 +1,30 @@
+erDiagram
+    USER ||--o{ PLAYLIST : has
+    USER ||--|| PROFILE : has
+    SONG }o--o{ PLAYLIST : "part of"
+
+    USER {
+        int user_id PK, FK
+        string email
+        date created_at FK
+    }
+
+    PLAYLIST {
+        int playlist_id PK, FK
+        string playlist_name
+        int song_id FK
+    }
+
+    SONG {
+        int song_id PK, FK
+        string title
+        string artist
+        int playlist_id FK
+    }
+
+    PROFILE {
+        int profile_id PK, FK
+        string profile_name
+        date edited_at
+        date created_at FK
+    }

@@ -1,0 +1,30 @@
+{{> Header }}
+<div id="login-form-top-level-div">
+	<div id="login-form-div">
+
+		<h1 class="white-font">Login</h1>
+
+		{{#if errorBool}}
+		<div>
+			<p class="red-font" id="error">{{errorMsg}}</p>
+		</div>
+		{{/if}}
+
+		<form id="login-form" action="{{ path 'login' }}" method="post">
+			<div class="login-label-input">
+				<input type="email" name="email" value="{{email}}" placeholder="Email"/>
+			</div>
+			<div class="login-label-input">
+				<input type="password" name="password" value="{{password}}" placeholder="Password"/>
+			</div>
+			<div class="login-label-input" style="flex-direction: row;">
+				<label class="white-font" for="rememberMe">Remember me?</label>
+				<input type="checkbox" name="remember" value="unchecked"></input>
+			</div>
+			<input class="white-font" id="login-form-submit-button" type="submit" value="Login" /></input>
+		</form>
+		<a class="white-font" id="register-path-link" href="{{ path 'register' }}">Create account</a>
+	</div>
+</div>
+
+{{> Footer}}

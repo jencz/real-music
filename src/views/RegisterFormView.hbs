@@ -1,0 +1,33 @@
+{{> Header }}
+
+<div id="register-form-top-level-div">
+	<div id="register-form-div">
+		<h1 class="white-font">Make an account</h1>
+
+		{{#if errorBool}}
+		<div>
+			<p class="red-font" id="error">{{errorMsg}}</p>
+		</div>
+		{{/if}}
+
+		<form id="register-form" action="/users" method="post">
+			<div class="register-label-input">
+				<label class="white-font" for="email"></label>
+				<input type="email" name="email" value="{{email}}" placeholder="Email" />
+			</div>
+			<div class="register-label-input">
+				<label class="white-font" for="password"></label>
+				<input type="password" name="password" value="{{password}}" placeholder="Password" />
+			</div>
+			<div class="register-label-input">
+				<label class="white-font" for="confirmPassword"></label>
+				<input type="password" name="confirmPassword" value="{{confirm_password}}"
+					placeholder="Confirm Password" />
+			</div>
+			<input class="white-font" id="register-form-submit-button" type="submit" value="Create Account" /></input>
+		</form>
+		<a class="white-font" id="login-path-link" href="{{ path 'login' }}">Already have an account?</a>
+	</div>
+</div>
+
+{{> Footer}}

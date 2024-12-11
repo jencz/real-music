@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link id="stylesheet" rel="stylesheet" type="text/css" href="{{ styles 'style.css' }}">
+	<link href="https://fonts.cdnfonts.com/css/minecraftia" rel="stylesheet">
+	<title>Real Music</title>
+</head>
+
+<body>
+	<div id="container">
+		<div id="header">
+			<img id="mode" src="../../images/light-mode-images/dark-mode-enabled.png">
+			<form method="GET" action="/profile">
+				<button><img src="{{ProfilePicLink}}" id="user-pfp"></button>
+			</form>	
+		</div>
+		<nav id="navbar">
+			<div id="navbar-options">
+				<ul>
+					<form method="GET" action="/">
+						{{!-- <li id="option-1"><img src="/images/home.png" width="25em" height="25em"><button>Home</button></li> --}}
+						<li id="option-1"><button><img src="/images/light-mode-images/home-white.png" width="25em" height="25em"><p>Home</p></button></li>
+					</form>
+					
+					<form method="GET" action="/search">
+						<li id="option-2"><button><img src="/images/light-mode-images/search-white.png" width="25em" height="25em"><p>Search</p></button></li>
+					</form>
+
+					<form method="GET" action="/library">
+						<li id="option-3"><button><img src="/images/light-mode-images/music-library-white.png" width="25em" height="25em"><p>Library</p></button></li>
+					</form>
+				</ul>
+			</div>
+			
+			<script>
+				let mod = document.getElementById('mode')
+				let isDark = true
+				mod.addEventListener('click', ()=> {
+					if (!isDark) {
+						mod.src = '../../images/light-mode-images/dark-mode-enabled.png'
+						isDark = true
+						let link = document.getElementById('stylesheet')
+						link.href = '{{ styles 'style.css' }}'
+					}
+					else {
+						mod.src = '../../images/dark-mode-images/light-mode-enabled.png'
+						isDark = false
+						let link = document.getElementById('stylesheet')
+						link.href = '{{ styles 'light-mode.css' }}'
+					}				
+				})
+			</script>
+		</nav>
+		<main id="main">

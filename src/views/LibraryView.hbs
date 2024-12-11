@@ -1,0 +1,81 @@
+{{> Header }}
+
+<div id="library-view-div">
+    <h1>My Playlists</h1>
+
+    <div class="create-playlist-form">
+        {{#if createErrorMsg}}
+        <p id="create-playlist-form-error-string">{{createErrorMsg}}</p>
+        {{/if}}
+        <div id="create-playlist">
+            <form action="/playlists" method="POST">
+                <input type="text" id="playlistName" name="playlistName" required>
+                <button>+</button>
+            </form>
+        </div>
+
+    </div>
+
+
+    {{#if playlists}}
+    <div id="playlists">
+        {{#each playlists}}
+        <div id="playlist-display">
+            <form method="GET" action="/playlists/{{this.props.id}}">
+                <button><img
+                        src="https://tidal.com/browse/assets/images/defaultImages/defaultPlaylistImage.png"></button>
+            </form>
+            <p>{{this.props.playlistName}}</p>
+        </div>
+        {{/each}}
+        {{else}}
+        <p>You have no playlists.</p>
+        {{/if}}
+    </div>
+
+</div>
+
+{{> Footer}}
+
+<!--
+<script>
+    async function createPlaylist(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const playlistName = formData.get('playlistName');
+        const userId = formData.get('userId');
+
+        if (!playlistName || !userId) {
+            alert('Playlist name and User ID are required');
+            return;
+        }
+
+        const response = await fetch('/playlists', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ playlistName, userId })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            addPlaylistToList(result.payload);
+            form.reset();
+            alert('Playlist created successfully');
+        } else {
+            const result = await response.json();
+            alert(`Error creating playlist: ${result.message}`);
+        }
+    }
+
+    function addPlaylistToList(playlist) {
+        const playlistList = document.getElementById('playlist-list');
+        const listItem = document.createElement('li');
+        listItem.className = 'playlist';
+        listItem.innerHTML = `<a href="/playlists/${playlist.id}">${playlist.playlistName} (${playlist.songCount} songs)</a>`;
+        playlistList.appendChild(listItem);
+    }
+</script>
+-->

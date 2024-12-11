@@ -1,0 +1,30 @@
+{{>Header}}
+
+
+{{#if theErrMsg}}
+<p class="red-font">{{theErrMsg}}</p>
+{{/if}}
+<form method="POST" action="{{ path 'playlists/' }}{{playlistItself.props.id}}">
+    <input type="hidden" name="method" value="PUT">	
+    <label for="playlistName">Playlist name:</label>
+    <input name="playlistName">
+    <button>Submit</button>
+</form>
+<form method="POST" action="{{ path 'playlists/' }}{{playlistItself.props.id}}">
+<input type="hidden" name="method" value="DELETE">	
+<button>Delete Playlist</button>
+</form>
+
+<h1>{{playlistItself.props.playlistName}} Playlist</h1>
+{{#if songs}}
+<ol>
+{{#each songs}}
+<li>
+    <h2>{{this.props.songTitle}}</h1>
+    <p>{{this.props.artistName}}</p>
+</li>
+{{/each}}
+</ol>
+{{/if}}
+
+{{>Footer}}

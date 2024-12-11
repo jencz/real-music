@@ -1,0 +1,42 @@
+{{> Header }}
+
+<div id="profile-view-div">
+    <div id="profile-view-left-right-div">
+        <div id="profile-view-left-div">
+            <div id="profile-view-left-image-div">
+                <image id="user-profile-picture" src="{{ProfilePicLink}}"></image>
+            </div>
+            <div id="profile-view-name-div">
+                <h1 class="white-font">{{DisplayName}}</h1>
+                <p class="white-font">Playlist count: {{playlistCount}}</p>
+
+            </div>
+        </div>
+        <div id="profile-view-right-div">
+            <h1 class="white-font">Liked Songs</h1>
+            <ul>
+                {{#each favoriteSongs}}
+                <li class="track-result-profile" id="{{this.props.trackId}}">
+                    <div id="album-container">
+                        <img src="{{this.props.artworkUrl}}" id="album-image">
+                    </div>
+                    <p id="song-title">{{this.props.songTitle}}</p>
+                    <p id="artist-name">{{this.props.artistName}}</p>
+                    <p id="album-name">{{this.props.albumName}}</p>
+                    <audio id="song-audio" src="{{this.props.previewUrl}}"></audio>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+    <div id="profile-page-buttons-div">
+        <form id="profile-logout-form" method="get" action="/profile/{{ UserProps.id }}/edit">
+            <button class="white-font" id="profile-view-logout-button">Edit Profile</button>
+        </form>
+        <form id="profile-logout-form" method="post" action="/logout">
+            <button class="white-font" id="profile-view-logout-button">Logout</button>
+        </form>
+    </div>
+</div>
+
+{{> Footer}}

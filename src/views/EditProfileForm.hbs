@@ -1,0 +1,33 @@
+{{> Header }}
+
+<div id="edit-profile-form-top-level-div">
+	<div id="edit-profile-form-div">
+
+		<h1 class="white-font">Edit Profile</h1>
+
+		{{#if errorBool}}
+		<div>
+			<p class="red-font" id="error">{{errorMsg}}</p>
+		</div>
+		{{/if}}
+
+		<form id="edit-profile-form" action="{{ path 'profile/' }}{{userId}}" method="post">
+            <input type="hidden" name="method" value="PUT">	
+            <div class="edit-profile-label-input">
+                    <image id="edit-user-profile-picture" src="{{ProfilePicLink}}"></image>
+                    <input type="text" name="imageLink" value="" placeholder="Profile image URL"/>
+			</div>
+            <div class="edit-profile-label-input">
+				<input type="text" name="username" value="{{DisplayName}}" placeholder="username"/>
+            </div>
+            <div class="edit-profile-label-input">   
+				<input type="email" name="email" value="{{UserProps.email}}" placeholder="Email"/>
+				<input type="password" name="password" value="{{UserProps.userPassword}}" placeholder="Password"/>
+            </div> 
+			<input class="white-font" id="edit-profile-form-submit-button" type="submit" value="Submit" /></input>
+		</form>
+		<a class="white-font" id="edit-profile-path-link" href="{{ path 'profile' }}">Cancel</a>
+	</div>
+</div>
+
+{{> Footer}}

@@ -1,0 +1,27 @@
+{{> Header}}
+
+<div id="preview-container">
+    <div id="song-preview">
+        <div id="preview-album-container">
+            <img src="{{song.props.artworkUrl}}" id="preview-album-image">
+        </div>
+        <div id="information">
+          <p id="preview-title">{{song.props.songTitle}}</p>
+        <p id="preview-artist-name">{{song.props.artistName}}</p>
+        <p id="preview-album-name">{{song.props.albumName}}</p>  
+        </div>     
+    </div>
+
+    {{#if playlists}}
+    <div id="playlists-preview">
+        <h1>Pick a playlist:</h1>
+        {{#each playlists}}
+        <form method="POST" action="/playlist/{{this.props.id}}/song/{{song.props.id}}">
+            <button>{{this.props.playlistName}}</button>
+        </form>
+        {{/each}}
+    </div>
+    {{/if}}
+</div>
+
+{{> Footer}}

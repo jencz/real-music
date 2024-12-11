@@ -1,0 +1,162 @@
+{{> Header }}
+
+
+<div id="artist-page-info">
+    <div id="info-container">
+        <img src="{{artist.props.artistPfpLink}}">
+        <div id="art-info">
+            <h1>{{artist.props.artistName}}</h1>   
+            <p>{{formattedFollowers}} followers</p>  
+        </div>  
+    </div>
+
+    {{#if songs}}
+    <div id="artist-songs-list">
+        <ul>
+            {{#each songs}}
+            <li class="track-result" id="{{this.props.trackId}}">
+                <div id="album-container">
+                    <img src="{{this.props.artworkUrl}}" id="album-image">
+                </div>
+                <p id="song-title">{{this.props.songTitle}}</p>
+                <p id="artist-name">{{this.props.artistName}}</p>
+                <p id="album-name">{{this.props.albumName}}</p>
+                <div id="controls">
+                    <div id="play-song-button-div">
+                        <button
+                            onclick="playSong('{{this.props.songTitle}}', '{{this.props.artistName}}', '{{this.props.artworkUrl}}', '{{this.props.previewUrl}}', '{{this.props.durationMs}}')"><img
+                                src="/images/light-mode-images/play-button-white.png"></button>
+                    </div>
+                    <div class="context-menu-container">
+
+                        <img src="/images/light-mode-images/three-white-dots.png" class="three-dots">
+
+                        <div class="context-menu">
+                            <div id="ul">
+                                <div class="like-song" onclick="likeSong(this)">
+                                    <img src="/images/light-mode-images/heart-white.png" class="heart-image">
+                                    <p>Like song</p>
+                                </div>
+                                <div id="add-playlist">
+                                    <img src="/images/light-mode-images/plus-white.png">
+                                    <p>Add to playlist</p>
+                                </div>
+                                <form id="goto-artist" method="GET" action="/artist/{{this.props.artistId}}">
+                                    <img src="/images/light-mode-images/artist-white.png">
+                                    <button>Go to artist</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <audio id="song-audio"></audio>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/if}}
+</div>
+<script>
+    function playSong(songTitle, artistName, artworkUrl, previewUrl, durationMs) {
+    let playing = false;
+    let playButton = document.getElementById('footer-play-button');
+    playButton.src = "/images/light-mode-images/play-button-white.png";
+    let songAudio = document.getElementById('song-audio');
+    let volumeSlider = document.getElementById('volume-slider');
+    let currentTimeDisplay = document.getElementById('current-time');
+    let totalTimeDisplay = document.getElementById('total-time');
+
+    document.getElementById('current-artwork').src = artworkUrl;
+    document.getElementById('current-song-title').innerText = songTitle;
+    document.getElementById('current-song-artist-name').innerText = artistName;
+
+    songAudio.src = previewUrl;
+    songAudio.currentTime = 0;
+
+    let volume = volumeSlider.value / 100;
+    songAudio.volume = volume;
+
+    // Update total time display
+    songAudio.addEventListener('loadedmetadata', () => {
+        let totalMinutes = Math.floor(songAudio.duration / 60);
+        let totalSeconds = Math.floor(songAudio.duration % 60);
+        totalTimeDisplay.textContent = totalMinutes + ':' + (totalSeconds < 10 ? '0' : '') + totalSeconds;
+    });
+
+    songAudio.addEventListener('timeupdate', () => {
+        let currentMinutes = Math.floor(songAudio.currentTime / 60);
+        let currentSeconds = Math.floor(songAudio.currentTime % 60);
+        currentTimeDisplay.textContent = currentMinutes + ':' + (currentSeconds < 10 ? '0' : '') + currentSeconds;
+    });
+
+    songAudio.addEventListener('ended', () => {
+        playButton.src = "/images/light-mode-images/play-button-white.png";
+        currentTimeDisplay.textContent = '0:00'; // Reset current time display
+        playing = false;
+    });
+
+    playButton.addEventListener('click', () => {
+        if (playing === false) {
+            playButton.src = "/images/light-mode-images/pause-button-white.png";
+            songAudio.play();
+            playing = true;
+        } else {
+            playButton.src = "/images/light-mode-images/play-button-white.png";
+            songAudio.pause();
+            playing = false;
+        }
+    });
+
+    volumeSlider.addEventListener('input', () => {
+        volume = volumeSlider.value / 100;
+        songAudio.volume = volume;
+    });
+}
+
+
+    document.querySelectorAll('.three-dots').forEach(threeDots => {
+        threeDots.addEventListener('click', (event) => {
+            // Hide all context menus except the one clicked
+            document.querySelectorAll('.context-menu').forEach(menu => {
+                if (menu !== event.currentTarget.nextElementSibling) {
+                    menu.style.display = 'none';
+                }
+            });
+
+            // Toggle display of clicked context menu
+            const contextMenu = event.currentTarget.nextElementSibling;
+            if (contextMenu.style.display === 'block') {
+                contextMenu.style.display = 'none';
+            } else {
+                contextMenu.style.display = 'block';
+            }
+        });
+    });
+
+    // Close context menu when clicking outside of it
+    document.addEventListener('click', (event) => {
+        if (!event.target.matches('.three-dots')) {
+            document.querySelectorAll('.context-menu').forEach(menu => {
+                menu.style.display = 'none';
+            });
+        }
+    });
+
+    let liked = false;
+    function likeSong(clickedDiv) {
+        let img = clickedDiv.querySelector('.heart-image')
+        // get form
+
+        if (!liked) {
+            img.src = '/images/heart-green.png';
+            liked = true;
+            // change form method and action
+        } else {
+            img.src = '/images/light-mode-images/heart-white.png';
+            liked = false;
+            // change form method and action
+        }
+    }
+</script>
+
+{{> Footer }}
